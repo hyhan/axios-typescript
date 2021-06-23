@@ -1,6 +1,6 @@
-import { createError } from './helpers/error'
-import { parseHeaders } from './helpers/headers'
-import { AxiosRequestConfig, AxiosResponse, AxiosPromise } from './types/index'
+import { createError } from '../helpers/error'
+import { parseHeaders } from '../helpers/headers'
+import { AxiosRequestConfig, AxiosResponse, AxiosPromise } from '../types/index'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -34,12 +34,10 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     }
 
     request.onreadystatechange = function headleLoad() {
-      if (request.readyState !== 4) {
+      if (request.readyState !== 4 || request.status === 0) {
         return
       }
-      if (request.status === 0) {
-        return
-      }
+
       const responseData =
         responseType && responseType !== 'text'
           ? request.response
